@@ -5,12 +5,11 @@ const client = new Discord.Client();
 const { Client, MessageEmbed } = require('discord.js');
 const Canvacord = require("canvacord");
 const db = require('quick.db');
-const weather = require('weather-js');
 
 //ESTADO DE PERFIL DE BOT
 client.on("ready", () => {
-  console.log("Rosetta lista");
-  client.user.setPresence({activity: { name: 'libros de BioAlquimia🧪', type: 'WATCHING' }, status: 'idle'})
+  console.log("Sacarosa lista");
+  client.user.setPresence({activity: { name: '🍸Tavern Dreams🍹', type: 'WATCHING' }, status: 'idle'})
   });
 
 // TIRAR EL DADO
@@ -79,6 +78,40 @@ function xp(message) {
   }
   */
 }
+
+//GENERAL
+let PREFIX
+
+const fs = require('fs');
+client.commands = new Discord.Collection();
+
+const commandFiles = fs.readdirSync('./Comandos').filter(file => file.endsWith('.js'));
+for (const file of commandFiles) {
+    const command = require(`./Comandos/${file}`);
+    client.commands.set(command.name, command);
+}
+
+client.on('message', async message => {
+
+    if (db.get(`prefix_${message.guild.id}`) === null) {
+        PREFIX = "¡"
+    }
+
+    else {
+        PREFIX = db.get(`prefix_${message.guild.id}`)
+    }
+
+})
+
+
+client.on('message', async message => {
+    if (!message.content.startsWith(PREFIX)) return;
+
+    let args = message.content.slice(PREFIX.length).split(" ");
+    let command = args.shift().toLowerCase()
+})
+
+
 
   // MODERACION ANTI-BadWords
   client.on('message', async message => {
@@ -369,4 +402,4 @@ client.on('message', async message => {
 })
   
 //TOKEN DE BOT
-client.login("token");
+client.login("ANzEwNjMyMDQ5OTExNzkxNjkx.Xr3Rqw.NIqG_MiOui8C3TjYjgPVYnACogU");
